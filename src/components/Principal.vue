@@ -14,15 +14,18 @@
       <secao @coisa='coisa' v-for="(secao,chave) of json.secoes" :key='chave' :chave='chave' v-model='json.secoes[chave]'/>
     </form>
   </div>
+  <modal-sample :content='json'/>
 </template>
 <script>
 import { parse, format } from 'date-fns'
 import LoadFile from "@/components/LoadFile";
 import Secao from "@/components/Secao";
+import ModalSample from "@/components/ModalSample";
 export default {
   components: {
     LoadFile,
-    Secao
+    Secao,
+    ModalSample
   },
   data() {
     return {
