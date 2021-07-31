@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-2">
+  <div class="container mt-2 mb-5">
     <h2>Informativo IBRVN</h2>
     <load-file @json="carregaJson" />
     <form class="row g-3 mt-3" v-if='json'>

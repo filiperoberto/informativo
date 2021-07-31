@@ -1,6 +1,5 @@
 <template>
-  <div class="card" v-if='mutatedValue'>
-    <!--<img src="..." class="card-img-top" alt="...">-->
+  <div class="card secao" v-if='mutatedValue' :class="{'is-active': ativo}">
     <div class="card-body">
       <h5 class="card-title text-capitalize">{{ title }}</h5>
       <div class="card-text">
@@ -17,11 +16,13 @@
             >Ativo</label
           >
         </div>
+        <template v-if="ativo">
         <template v-for='(conteudo,index) in mutatedValue.lista' :key='`conteudo-${index}`'>
           <conteudo  :modelValue='conteudo' :destaque='index===0' @update:modelValue='alterarConteudo(conteudo, $event)'/>
         </template>
         <conteudo v-if='mutatedValue.artigo' :modelValue='mutatedValue.artigo' @update:modelValue='alterarConteudo(mutatedValue.artigo, $event)'/>
         <conteudo v-if='mutatedValue.livro' :modelValue='mutatedValue.livro' @update:modelValue='alterarConteudo(mutatedValue.livro, $event)'/>
+        </template>
       </div>
     </div>
   </div>
@@ -75,3 +76,11 @@ export default {
   }
 };
 </script>
+<style scoped>
+.secao {
+  opacity: 0.5;
+}
+.secao.is-active {
+opacity: 1;
+}
+</style>

@@ -9,26 +9,22 @@
           v-model="mutatedValue.titulo"
           class="form-control"
           id="exampleFormControlInput1"
-          placeholder="name@example.com"
         />
       </div>
       <div class="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label"
           >Texto</label
         >
-        <textarea
-          class="form-control"
-          id="exampleFormControlTextarea1"
-          rows="3"
-        ></textarea>
+        <text-editor v-model='mutatedValue.texto' @change="alterar"/>
       </div>
     </div>
   </div>
 </template>
 <script>
 import Imagem from './Imagem.vue';
+import TextEditor from './TextEditor.vue';
 export default {
-  components: { Imagem },
+  components: { Imagem, TextEditor },
   data() {
     return {
       mutatedValue: null,

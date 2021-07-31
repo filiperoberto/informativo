@@ -1,6 +1,6 @@
 <template>
   <span>
-    <img v-if="name && !erro" :src="url" class="card-img-top" />
+    <img v-if="name && !erro && !loading" :src="url" class="card-img-top" />
   </span>
 </template>
 <script>
@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       erro: false,
+      loading: false
     };
   },
   methods: {
@@ -36,10 +37,13 @@ export default {
       let tester = new Image();
       tester.onload = () => {
         this.erro = false;
+        this.loading = false
       };
       tester.onerror = () => {
         this.erro = true;
+        this.loading = false
       };
+      this.loading = true
       tester.src = this.url;
     },
   },
