@@ -7,7 +7,7 @@
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
@@ -19,7 +19,9 @@
             @click.stop.prevent="$emit('close')"
           ></button>
         </div>
-        <div class="modal-body" ref="html">.</div>
+        <div class="modal-body">
+          <iframe id="myiframe" ref="html" src=''></iframe> 
+        </div>
         <div class="modal-footer">
           <button
             @click.stop.prevent="$emit('close')"
@@ -55,9 +57,9 @@ export default {
     carregaInformativo() {
       const xhttp = new XMLHttpRequest();
       xhttp.onload = () => {
-        this.html.innerHTML = this.responseText;
+        this.html.src = "data:text/html;charset=iso-8859-1," + escape(xhttp.responseText);
       };
-      xhttp.open("GET", "http://informativo.ibrvn.com.br/index.php");
+      xhttp.open("POST", process.env.VUE_APP_ENDERECO_PHP);
       xhttp.setRequestHeader("Content-type", "application/json");
       xhttp.send(JSON.stringify(this.content));
     },
@@ -67,5 +69,9 @@ export default {
 <style scoped>
 .modal.show {
   display: block;
+}
+#myiframe {
+  width: 100%;
+  height: 800px;
 }
 </style>

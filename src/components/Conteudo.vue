@@ -1,6 +1,9 @@
 <template>
   <div v-if="mutatedValue" class="card mb-3">
-    <imagem :name='mutatedValue.imagem' :destaque="destaque"/>
+    <div class="card-header text-end" v-if='removivel'>
+      <button class="btn btn-danger" @click.stop.prevent="$emit('remove')">Remover Bloco</button>
+    </div>
+    <imagem :name="mutatedValue.imagem" :destaque="destaque" />
     <div class="card-body">
       <div class="card-text">
         <label for="exampleFormControlInput1" class="form-label">Título</label>
@@ -15,14 +18,14 @@
         <label for="exampleFormControlTextarea1" class="form-label"
           >Texto</label
         >
-        <text-editor v-model='mutatedValue.texto' @change="alterar"/>
+        <text-editor v-model="mutatedValue.texto" @change="alterar" />
       </div>
     </div>
   </div>
 </template>
 <script>
-import Imagem from './Imagem.vue';
-import TextEditor from './TextEditor.vue';
+import Imagem from "./Imagem.vue";
+import TextEditor from "./TextEditor.vue";
 export default {
   components: { Imagem, TextEditor },
   data() {
@@ -32,7 +35,11 @@ export default {
   },
   props: {
     modelValue: Object,
-    destaque: Boolean
+    destaque: Boolean,
+    removivel: {
+      type: Boolean,
+      default: false
+    }
   },
   watch: {
     modelValue() {
