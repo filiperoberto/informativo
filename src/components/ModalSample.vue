@@ -10,7 +10,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Pré Visualizar</h5>
           <button
             type="button"
             class="btn-close"
@@ -20,7 +20,12 @@
           ></button>
         </div>
         <div class="modal-body">
-          <iframe id="myiframe" ref="html" src=''></iframe> 
+          <div v-if='loading' class="spinner text-center">
+            <h1>
+              <i class="fas fa-spinner fa-spin"></i>
+            </h1>
+          </div>
+          <iframe v-show='!loading' id="myiframe" ref="html" src=''></iframe>
         </div>
         <div class="modal-footer">
           <button
@@ -53,13 +58,23 @@ export default {
       }
     },
   },
+  data() {
+    return {
+      loading: false
+    }
+  },
   methods: {
     carregaInformativo() {
+      this.loading = true
       const xhttp = new XMLHttpRequest();
       xhttp.onload = () => {
+        this.loading = false
         this.html.src = "data:text/html;charset=iso-8859-1," + escape(xhttp.responseText);
       };
-      xhttp.open("POST", process.env.VUE_APP_ENDERECO_PHP);
+      xhttp.onerror = () => {
+        this.loading = false
+      }
+      xhttp.open("POST", `${process.env.VUE_APP_ENDERECO_PHP}?interno=kbPMQH3PyjQzzwhf`);
       xhttp.setRequestHeader("Content-type", "application/json");
       xhttp.send(JSON.stringify(this.content));
     },
@@ -73,5 +88,10 @@ export default {
 #myiframe {
   width: 100%;
   height: 800px;
+}
+
+.spinner {
+  width: 100%;
+  height: 100%;
 }
 </style>
