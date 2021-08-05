@@ -1,6 +1,14 @@
 <template>
   <span>
     <img v-if="name && !erro && !loading" :src="url" class="card-img-top" />
+    <div v-if='erro' class="card-img-top text-center no-imagem">
+      <i class="far fa-frown-open"></i>
+      <div>Imagem não encontrada</div>
+    </div>
+    <div v-if='loading' class="card-img-top text-center no-imagem">
+      <i class="fas fa-spinner fa-spin"></i>
+      <div>Carregando..</div>
+    </div>
   </span>
 </template>
 <script>
@@ -18,7 +26,7 @@ export default {
       if (this.destaque) {
         path = "destaques";
       }
-      return `http://informativo.ibrvn.com.br/imagens/${path}/${this.name}`;
+      return `${process.env.VUE_APP_ENDERECO_PHP}/imagens/${path}/${this.name}`;
     },
   },
   watch: {
@@ -52,3 +60,9 @@ export default {
   }
 };
 </script>
+<style scoped>
+.no-imagem {
+  padding: 20px;
+  background: #ddd;
+}
+</style>

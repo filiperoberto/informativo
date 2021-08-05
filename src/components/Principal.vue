@@ -32,17 +32,20 @@
     </form>
   </div>
   <modal-sample @close="sample = null" :content="sample" />
+  <modal-imagens/>
 </template>
 <script>
 import { parse, format } from "date-fns";
 import LoadFile from "@/components/LoadFile";
 import Secao from "@/components/Secao";
 import ModalSample from "@/components/ModalSample";
+import ModalImagens from "@/components/ModalImagens";
 export default {
   components: {
     LoadFile,
     Secao,
     ModalSample,
+    ModalImagens
   },
   data() {
     return {
