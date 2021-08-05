@@ -1,9 +1,33 @@
 <template>
   <div v-if="mutatedValue" class="card mb-3">
-    <div class="card-header text-end" v-if='removivel'>
-      <button class="btn btn-danger" @click.stop.prevent="$emit('remove')">Remover Bloco</button>
+    <div class="card-header text-end" v-if="removivel">
+      <button class="btn btn-danger" @click.stop.prevent="$emit('remove')">
+        Remover Bloco
+      </button>
     </div>
-    <imagem :name="mutatedValue.imagem" :destaque="destaque" />
+
+    <div class="position-relative">
+      <imagem :name="mutatedValue.imagem" :destaque="destaque" />
+      <div class="card-img-overlay">
+        <h5 class="card-title">
+          <button
+            class="btn btn-primary m-2"
+            title="Editar Imagem"
+            @click.stop.prevent="selecionarImagem"
+          >
+            <i class="fas fa-edit"></i>
+          </button>
+          <button
+            class="btn btn-danger m-2"
+            title="Remover Imagem"
+            @click.stop.prevent="removerImagem"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </h5>
+      </div>
+    </div>
+
     <div class="card-body">
       <div class="card-text">
         <label for="exampleFormControlInput1" class="form-label">Título</label>
@@ -38,8 +62,8 @@ export default {
     destaque: Boolean,
     removivel: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   watch: {
     modelValue() {
@@ -49,6 +73,24 @@ export default {
   methods: {
     alterar() {
       this.$emit("update:modelValue", this.mutatedValue);
+    },
+    removerImagem() {
+      this.mutatedValue.imagem = ""
+      this.$emit("update:modelValue", this.mutatedValue);
+    },
+    async selecionarImagem() {
+      try {
+        this.mutatedValue.imagem = await this.$store.dispatch(
+          "openSelectImage",
+          {
+            dir: this.destaque ? "destaques" : "avisos",
+            selected: this.mutatedValue.imagem 
+          }
+        );
+        this.$emit("update:modelValue", this.mutatedValue);
+      } catch (e) {
+        console.log(e);
+      }
     },
   },
   mounted() {
