@@ -4,5 +4,6 @@ export default {
     dir: 'avisos',
     resolve: null,
     reject: null
-  }
+  },
+  salvo: null
 }

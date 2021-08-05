@@ -9,6 +9,9 @@ export default {
   },
   selectModalImage({commit}, value) {
     commit('selectModalImage', value)
+  },
+  salvar({commit}, value) {
+    commit('salvar', value)
   }
 
 }

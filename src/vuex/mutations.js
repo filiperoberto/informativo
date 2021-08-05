@@ -9,5 +9,8 @@ export default {
 	selectModalImage(state, value) {
 		state.modalImage.resolve && state.modalImage.resolve(value)
 		state.modalImage = {open: false}
+	},
+	salvar(state, value) {
+		state.salvo = value
 	}
 }

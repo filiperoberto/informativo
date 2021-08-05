@@ -35,6 +35,7 @@
             @click="$store.dispatch('selectModalImage', imagem.name)"
           >
             <img
+            loading="lazy"
               :src="imagem.url"
               class="img-thumbnail rounded"
               @error="imagem.show = false"
