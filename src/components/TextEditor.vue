@@ -19,108 +19,146 @@
       >
         <i class="fas fa-strikethrough"></i>
       </button>
-      <button v-if='false'
+      <button
+        v-if="false"
         @click.stop.prevent="editor.chain().focus().toggleCode().run()"
         :class="{ 'is-active': editor.isActive('code') }"
       >
         code
       </button>
-      <button @click.stop.prevent="editor.chain().focus().unsetAllMarks().run()">
-        <i class="fas fa-remove-format"></i>
-      </button>
-      <button v-if='false' @click.stop.prevent="editor.chain().focus().clearNodes().run()">
+      <button
+        @click.stop.prevent="editor.chain().focus().unsetAllMarks().run()"
+      >
         <i class="fas fa-remove-format"></i>
       </button>
       <button
+        v-if="false"
+        @click.stop.prevent="editor.chain().focus().clearNodes().run()"
+      >
+        <i class="fas fa-remove-format"></i>
+      </button>
+      <button
+        v-if="false"
         @click.stop.prevent="editor.chain().focus().setParagraph().run()"
         :class="{ 'is-active': editor.isActive('paragraph') }"
       >
         <i class="fas fa-paragraph"></i>
       </button>
       <button
-      v-if='false'
-        @click.stop.prevent="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+        v-if="false"
+        @click.stop.prevent="
+          editor.chain().focus().toggleHeading({ level: 1 }).run()
+        "
         :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
       >
         h1
       </button>
       <button
-       v-if='false'
-        @click.stop.prevent="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+        v-if="false"
+        @click.stop.prevent="
+          editor.chain().focus().toggleHeading({ level: 2 }).run()
+        "
         :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
       >
         h2
       </button>
       <button
-       v-if='false'
-        @click.stop.prevent="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+        v-if="false"
+        @click.stop.prevent="
+          editor.chain().focus().toggleHeading({ level: 3 }).run()
+        "
         :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
       >
         h3
       </button>
       <button
-       v-if='false'
-        @click.stop.prevent="editor.chain().focus().toggleHeading({ level: 4 }).run()"
+        v-if="false"
+        @click.stop.prevent="
+          editor.chain().focus().toggleHeading({ level: 4 }).run()
+        "
         :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
       >
         h4
       </button>
       <button
-       v-if='false'
-        @click.stop.prevent="editor.chain().focus().toggleHeading({ level: 5 }).run()"
+        v-if="false"
+        @click.stop.prevent="
+          editor.chain().focus().toggleHeading({ level: 5 }).run()
+        "
         :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
       >
         h5
       </button>
       <button
-       v-if='false'
-        @click.stop.prevent="editor.chain().focus().toggleHeading({ level: 6 }).run()"
+        v-if="false"
+        @click.stop.prevent="
+          editor.chain().focus().toggleHeading({ level: 6 }).run()
+        "
         :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
       >
         h6
       </button>
       <button
+        v-if="false"
         @click.stop.prevent="editor.chain().focus().toggleBulletList().run()"
         :class="{ 'is-active': editor.isActive('bulletList') }"
       >
         <i class="fas fa-list"></i>
       </button>
       <button
+        v-if="false"
         @click.stop.prevent="editor.chain().focus().toggleOrderedList().run()"
         :class="{ 'is-active': editor.isActive('orderedList') }"
       >
         <i class="fas fa-list-ol"></i>
       </button>
       <button
-      v-if='false'
+        v-if="false"
         @click.stop.prevent="editor.chain().focus().toggleCodeBlock().run()"
         :class="{ 'is-active': editor.isActive('codeBlock') }"
       >
         code block
       </button>
       <button
-      v-if='false'
+        v-if="false"
         @click.stop.prevent="editor.chain().focus().toggleBlockquote().run()"
         :class="{ 'is-active': editor.isActive('blockquote') }"
       >
         blockquote
       </button>
-      <button v-if='false' @click.stop.prevent="editor.chain().focus().setHorizontalRule().run()">
+      <button
+        v-if="false"
+        @click.stop.prevent="editor.chain().focus().setHorizontalRule().run()"
+      >
         horizontal rule
       </button>
-      <button v-if='false' @click.stop.prevent="editor.chain().focus().setHardBreak().run()">
+      <button
+        v-if="false"
+        @click.stop.prevent="editor.chain().focus().setHardBreak().run()"
+      >
         hard break
       </button>
-      <button v-if='false' @click.stop.prevent="editor.chain().focus().undo().run()">undo</button>
-      <button v-if='false' @click.stop.prevent="editor.chain().focus().redo().run()">redo</button>
+      <button
+        v-if="false"
+        @click.stop.prevent="editor.chain().focus().undo().run()"
+      >
+        undo
+      </button>
+      <button
+        v-if="false"
+        @click.stop.prevent="editor.chain().focus().redo().run()"
+      >
+        redo
+      </button>
     </div>
-    <editor-content :editor="editor" class='editor'/>
+    <editor-content :editor="editor" class="editor" />
   </div>
 </template>
 
 <script>
 import { Editor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
+import HardBreak from "@tiptap/extension-hard-break";
 
 export default {
   components: {
@@ -134,31 +172,43 @@ export default {
   data() {
     return {
       editor: null,
-      debounceTimer: null
+      debounceTimer: null,
     };
   },
 
   watch: {
     modelValue(newValue) {
       this.editor.commands.setContent(
-        newValue.map((v) => `<p>${v}</p>`).join("")
+        newValue /*.map((v) => `<p>${v}</p>`)*/
+          .join("")
       );
     },
   },
 
   mounted() {
     this.editor = new Editor({
-      content: (this.modelValue || []).map((v) => `<p>${v}</p>`).join(""),
-      extensions: [StarterKit],
+      content: (this.modelValue || []) /*.map((v) => `<p>${v}</p>`)*/
+        .join(""),
+      extensions: [
+        StarterKit,
+        HardBreak.extend({
+          addKeyboardShortcuts() {
+            return {
+              Enter: () => this.editor.commands.setHardBreak(),
+            };
+          },
+        }),
+      ],
       onUpdate: ({ editor }) => {
-        const value = editor.getHTML().replaceAll('</p>', '').split('<p>').filter(v => v.trim() !== '')
+        const value =
+          editor.getHTML(); /*.replaceAll('</p>', '').split('<p>').filter(v => v.trim() !== '')*/
 
-        clearTimeout(this.debounceTimer)
+        clearTimeout(this.debounceTimer);
         this.debounceTimer = setTimeout(() => {
-          this.$emit("update:modelValue", value);
-          this.$emit('change')
-        },1000)
-      }
+          this.$emit("update:modelValue", [value]);
+          this.$emit("change");
+        }, 1000);
+      },
     });
   },
 
@@ -181,6 +231,6 @@ export default {
 }
 
 >>> .ProseMirror {
-    padding: 10px;
+  padding: 10px;
 }
 </style>
