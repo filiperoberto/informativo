@@ -8,11 +8,11 @@
             class="form-check-input"
             type="checkbox"
             v-model="ativo"
-            id="switchAtivo"
+            :id="`switchAtivo-${uid}`"
             @change="alterar"
             :checked="ativo"
           />
-          <label class="form-check-label" for="switchAtivo">Ativo</label>
+          <label class="form-check-label" :for="`switchAtivo-${uid}`">Ativo</label>
           <div class="d-grid gap-2 col-6 mx-auto" v-if='mutatedValue.lista'>
             <button class="btn btn-primary" type="button" @click.stop.prevent="add()">
               Adicionar Bloco
@@ -29,17 +29,19 @@
                 :modelValue="conteudo"
                 removivel
                 @remove="remover(index)"
-                :destaque="index === 0"
+                :dir="index === 0 ? 'destaques' : 'avisos'"
                 @update:modelValue="alterarConteudo(conteudo, $event)"
               />
             </template>
             <conteudo
               v-if="mutatedValue.artigo"
               :modelValue="mutatedValue.artigo"
+              dir='artigos'
               @update:modelValue="alterarConteudo(mutatedValue.artigo, $event)"
             />
             <conteudo
               v-if="mutatedValue.livro"
+              dir='livros'
               :modelValue="mutatedValue.livro"
               @update:modelValue="alterarConteudo(mutatedValue.livro, $event)"
             />
@@ -51,6 +53,7 @@
 </template>
 <script>
 import Conteudo from "@/components/Conteudo";
+import { getCurrentInstance } from 'vue'
 export default {
   components: {
     Conteudo,
@@ -58,6 +61,13 @@ export default {
   props: {
     chave: String,
     modelValue: Object,
+  },
+  setup() {
+    const uid = getCurrentInstance().uid
+
+    return {
+      uid
+    }
   },
   data() {
     return {

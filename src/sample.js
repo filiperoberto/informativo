@@ -6,7 +6,6 @@ export default {
   secoes: {
     avisos: {
       ativa: "1",
-
       lista: [],
     },
     artigo: {

@@ -14,19 +14,15 @@
 <script>
 export default {
   props: {
-    destaque: {
-      type: Boolean,
-      default: false,
+    dir: {
+      type: String,
+      default: null,
     },
     name: String,
   },
   computed: {
     url() {
-      let path = "avisos";
-      if (this.destaque) {
-        path = "destaques";
-      }
-      return `${process.env.VUE_APP_ENDERECO_PHP}/imagens/${path}/${this.name}`;
+      return `${process.env.VUE_APP_ENDERECO_PHP}/imagens/${this.dir}/${this.name}`;
     },
   },
   watch: {

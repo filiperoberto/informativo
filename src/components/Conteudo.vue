@@ -1,13 +1,14 @@
 <template>
-  <div v-if="mutatedValue" class="card mb-3">
-    <div class="card-header text-end" v-if="removivel">
+  <div v-if="mutatedValue" class="card mb-3" :class="{'border-success': dir === 'destaques'}">
+    <div class="card-header d-flex justify-content-between align-items-center" v-if="removivel">
+      <span v-if="dir === 'destaques'" class='badge bg-success'>Destaque</span>
       <button class="btn btn-danger" @click.stop.prevent="$emit('remove')">
         Remover Bloco
       </button>
     </div>
 
     <div class="position-relative">
-      <imagem :name="mutatedValue.imagem" :destaque="destaque" />
+      <imagem :name="mutatedValue.imagem" :dir="dir" />
       <div class="card-img-overlay">
         <h5 class="card-title">
           <button
@@ -30,19 +31,56 @@
 
     <div class="card-body">
       <div class="card-text">
-        <label for="exampleFormControlInput1" class="form-label">Título</label>
+        <label :for="`formTitulo-${uid}`" class="form-label">Título</label>
         <input
           type="text"
           v-model="mutatedValue.titulo"
           class="form-control"
-          id="exampleFormControlInput1"
+          :id="`formTitulo-${uid}`"
+        />
+      </div>
+      <div class="card-text" v-if='mutatedValue.hasOwnProperty("autor")'>
+        <label :for="`formAutor-${uid}`" class="form-label">Autor</label>
+        <input
+          type="text"
+          v-model="mutatedValue.autor"
+          class="form-control"
+          :id="`formAutor-${uid}`"
+        />
+      </div>
+      <div class="card-text" v-if='mutatedValue.hasOwnProperty("editora")'>
+        <label :for="`formEditora-${uid}`" class="form-label">Editora</label>
+        <input
+          type="text"
+          v-model="mutatedValue.editora"
+          class="form-control"
+          :id="`formEditora-${uid}`"
+        />
+      </div>
+      <div class="card-text" v-if='mutatedValue.hasOwnProperty("paginas")'>
+        <label :for="`formPagina-${uid}`" class="form-label">Páginas</label>
+        <input
+          type="number"
+          v-model.number="mutatedValue.paginas"
+          class="form-control"
+          :id="`formPagina-${uid}`"
+        />
+      </div>
+      <div class="card-text" v-if='mutatedValue.hasOwnProperty("url")'>
+        <label :for="`formUrl-${uid}`" class="form-label">Url</label>
+        <input
+          type="text"
+          v-model="mutatedValue.url"
+          class="form-control"
+          :id="`formUrl-${uid}`"
         />
       </div>
       <div class="mb-3">
-        <label for="exampleFormControlTextarea1" class="form-label"
+        <label class="form-label"
           >Texto</label
         >
-        <text-editor v-model="mutatedValue.texto" @change="alterar" />
+        <text-editor v-model="mutatedValue.texto" @change="alterar" v-if='mutatedValue.hasOwnProperty("texto")'/>
+        <text-editor v-model="mutatedValue.descricao" @change="alterar" v-if='mutatedValue.hasOwnProperty("descricao")'/>
       </div>
     </div>
   </div>
@@ -50,6 +88,7 @@
 <script>
 import Imagem from "./Imagem.vue";
 import TextEditor from "./TextEditor.vue";
+import { getCurrentInstance } from 'vue'
 export default {
   components: { Imagem, TextEditor },
   data() {
@@ -64,6 +103,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    dir: null
+  },
+  setup() {
+    const uid = getCurrentInstance().uid
+
+    return {
+      uid
+    }
   },
   watch: {
     modelValue() {
@@ -83,7 +130,7 @@ export default {
         this.mutatedValue.imagem = await this.$store.dispatch(
           "openSelectImage",
           {
-            dir: this.destaque ? "destaques" : "avisos",
+            dir: this.dir,
             selected: this.mutatedValue.imagem 
           }
         );

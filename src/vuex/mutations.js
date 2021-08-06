@@ -12,5 +12,8 @@ export default {
 	},
 	salvar(state, value) {
 		state.salvo = value
+	},
+	token(state, value) {
+		state.token = value
 	}
 }

@@ -5,5 +5,6 @@ export default {
     resolve: null,
     reject: null
   },
-  salvo: null
+  salvo: null,
+  token: null
 }

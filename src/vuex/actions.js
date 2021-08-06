@@ -1,3 +1,4 @@
+import { login } from '@/services/service'
 export default {
   openSelectImage({commit}, {dir, selected}) {
     return new Promise((resolve, reject) => {
@@ -12,6 +13,12 @@ export default {
   },
   salvar({commit}, value) {
     commit('salvar', value)
+  },
+  login({commit},data) {
+    return login(data).then(({data}) => {
+      localStorage.setItem('token', data.token)
+      commit('token', data.token)
+    })
   }
 
 }

@@ -7,6 +7,9 @@
       <button class="btn btn-primary" @click="download" type="button">
         Download Json
       </button>
+      <button class="btn btn-danger" @click="limparFormulario" type="button">
+        Limpar Formulário
+      </button>
     </div>
 
     <form class="row g-3 mt-3" v-if="json">
@@ -56,6 +59,11 @@ export default {
     };
   },
   methods: {
+    limparFormulario() {
+      if (window.confirm("Tem certeza que deseja limpar o formulário?")) {
+        this.json = exemplo
+      }
+    },
     carregaJson(json) {
       this.json = {
         ...json,
