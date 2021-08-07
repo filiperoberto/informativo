@@ -24,5 +24,8 @@ export default {
   },
   geral(state, value) {
     state.geral = value
+  },
+  overlay(state, value) {
+	state.overlay = value
   }
 }

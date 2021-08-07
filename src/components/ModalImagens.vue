@@ -116,6 +116,15 @@ export default {
     },
     async enviarImagem(event, overwrite = false) {
 
+      if(!event.target.imagem.files[0]) {
+        this.$store.dispatch('alert',{
+          message: 'Selecione uma imagem',
+          showing: true,
+          type:'erro'
+        })
+      }
+
+      this.$store.dispatch('overlay', true)
       const formData = new FormData()
       formData.append('userfile', event.target.imagem.files[0])
       formData.append('folder', this.modalImage.dir)
@@ -123,6 +132,12 @@ export default {
       try {
         await upload(formData, overwrite)
         this.carregarImagens()
+
+        this.$store.dispatch('alert',{
+          message: 'Upload realizado com sucesso!',
+          showing: true,
+          type:'sucesso'
+        })
       } catch(e) {
         console.log(e);
         if((e.response || {}).status === 409) {
@@ -130,6 +145,8 @@ export default {
             this.enviarImagem(event, true)
           }
         }
+      } finally {
+        this.$store.dispatch('overlay', false)
       }
     }
   },

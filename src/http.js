@@ -21,10 +21,10 @@ http.interceptors.request.use(config => {
 
 
 http.interceptors.response.use(undefined, err => {
-  return new Promise(() => {
+  return new Promise((resolve, reject) => {
     if (err.response.status === 401 && err.config && !err.config.__isRetryRequest) {
       store.state.token = null
-      return;
+      return reject({});
     }
     throw err;
   });

@@ -12,5 +12,6 @@ export default {
   salvo: null,
   token: null,
   rota: 'edicao',
-  geral: {}
+  geral: {},
+  overlay: false
 }

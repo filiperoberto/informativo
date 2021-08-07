@@ -12,8 +12,6 @@
       <button class="btn btn-danger" @click="limparFormulario" type="button">
         Limpar Formulário
       </button>
-    </div>
-
     <form class="row g-3 mt-3" v-if="json">
       <div class="col-md-6">
         <label for="edicao" class="form-label">Edição</label>
@@ -35,6 +33,8 @@
         v-model="json.secoes[chave]"
       />
     </form>
+    </div>
+
   </div>
   <modal-sample @close="sample = null" :content="sample" />
   <modal-imagens />
@@ -64,6 +64,9 @@ export default {
   methods: {
     async load() {
       try {
+
+        this.$store.dispatch('overlay', true)
+        
         const edicao = prompt("Digite a edição:");
         const {data} = await load(edicao)
         this.carregaJson(data)
@@ -73,6 +76,8 @@ export default {
           showing: true,
           type:'erro'
         })
+      } finally {
+        this.$store.dispatch('overlay', false)
       }
     },
     async save(overwrite = false) {
@@ -86,6 +91,8 @@ export default {
       }
       try {
         let formData = new FormData();
+
+        this.$store.dispatch('overlay', true)
         
         const jsonse = JSON.stringify(this.json);
         const blob = new Blob([jsonse], {type: "application/json"});
@@ -107,6 +114,8 @@ export default {
               this.save(true)
             }
         }
+      } finally {
+        this.$store.dispatch('overlay', false)
       }
     },
     limparFormulario() {
@@ -157,6 +166,7 @@ export default {
   },
   beforeUnmount() {
     clearInterval(this.saveInterval)
+    this.$store.dispatch('salvar', this.json)
   },
   mounted() {
     this.json = this.$store.state.salvo || exemplo

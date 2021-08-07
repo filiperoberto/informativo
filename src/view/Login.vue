@@ -31,12 +31,22 @@ export default {
   },
   methods: {
     async login() {
+      this.$store.dispatch('overlay', true)
       try {
         await this.$store.dispatch('login', this.formData)
       } catch(e) {
-        console.log('error')
+        this.$store.dispatch('alert',{
+          message: 'Falha ao realizar login',
+          showing: true,
+          type:'erro'
+        })
+      } finally {
+        this.$store.dispatch('overlay', false)
       }
-    }
+    },
+    beforeDestroy() {
+      this.$store.dispatch('overlay', false)
+    },
   }
 }
 </script>

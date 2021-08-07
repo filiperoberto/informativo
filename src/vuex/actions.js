@@ -30,6 +30,9 @@ export default {
   },
   salvarGeral({commit}, value) {
     commit('geral', value)
+  },
+  overlay({commit}, value) {
+    commit('overlay', value)
   }
 
 }

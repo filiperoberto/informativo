@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <overlay/>
     <nav class="navbar navbar-light bg-light nav-pills">
       <div class="container">
         <a class="navbar-brand" href="#">
@@ -53,6 +54,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./view/Login";
 import { mapGetters, mapState } from "vuex";
 import Toast from "./components/Toast";
+import Overlay from "./components/Overlay";
 
 const rotas = {
   edicao: Principal,
@@ -63,6 +65,7 @@ export default {
   name: "App",
   components: {
     Toast,
+    Overlay
   },
   data() {},
   computed: {
@@ -72,5 +75,8 @@ export default {
       return this.tokenIsValid ? rotas[this.rota] : Login;
     },
   },
+  mounted() {
+    this.$store.dispatch('overlay', false)
+  }
 };
 </script>
