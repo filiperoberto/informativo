@@ -17,3 +17,11 @@ export const upload = (data, overwrite) => {
     headers: { "Content-Type": "multipart/form-data" }
   })
 }
+
+export const load = (edicao = null) => {
+  return http.get(`/json.php?edicao=${edicao}`)
+}
+
+export const loadGeneral = () => {
+  return http.get(`/json.php`)
+}

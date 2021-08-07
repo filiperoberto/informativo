@@ -19,6 +19,7 @@
     "capitalize-pt-br": "^0.6.0",
     "core-js": "^3.6.5",
     "date-fns": "^2.22.1",
+    "jwt-decode": "^3.1.2",
     "vue": "^3.1.4",
     "vuex": "^4.0.2",
     "vuex-persist": "^3.1.3"

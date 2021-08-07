@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { store } from '@/vuex/store'
 
 const http = axios.create({
   baseURL: process.env.VUE_APP_ENDERECO_PHP,
@@ -8,7 +9,7 @@ const http = axios.create({
 // Add a request interceptor
 http.interceptors.request.use(config => {
   config.headers = {
-    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    'Authorization': `Bearer ${store.state.token}`,
     'Accept': '*/*'
   }
   // Do something before request is sent
@@ -22,9 +23,7 @@ http.interceptors.request.use(config => {
 http.interceptors.response.use(undefined, err => {
   return new Promise(() => {
     if (err.response.status === 401 && err.config && !err.config.__isRetryRequest) {
-
-      localStorage.removeItem('token')
-      window.location.href = '/login'
+      store.state.token = null
       return;
     }
     throw err;

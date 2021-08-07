@@ -3,6 +3,8 @@
     <h2>Informativo IBRVN</h2>
     <load-file @json="carregaJson" />
     <div class="d-grid gap-2 col-6 mx-auto mt-2" v-if="json">
+      <button class="btn btn-primary" @click="load" type="button">Carregar Edição</button>
+      <button class="btn btn-warning" @click="save(false)" type="button" :disabled='!json.numero'>Salvar Edição</button>
       <button class="btn btn-primary" @click="preview" :disabled='!json.numero || !json.data'>Pré Visualizar</button>
       <button class="btn btn-primary" @click="download" type="button">
         Download Json
@@ -44,6 +46,7 @@ import Secao from "@/components/Secao";
 import ModalSample from "@/components/ModalSample";
 import ModalImagens from "@/components/ModalImagens";
 import exemplo from '../sample'
+import { load, upload } from '@/services/service'
 export default {
   components: {
     LoadFile,
@@ -59,6 +62,53 @@ export default {
     };
   },
   methods: {
+    async load() {
+      try {
+        const edicao = prompt("Digite a edição:");
+        const {data} = await load(edicao)
+        this.carregaJson(data)
+      } catch({response}) {
+        this.$store.dispatch('alert',{
+          message: ((response || {}).data || {}).msg,
+          showing: true,
+          type:'erro'
+        })
+      }
+    },
+    async save(overwrite = false) {
+      
+      let confirma = overwrite
+
+      if(!confirma) {
+        if(!window.confirm(`Fazer upload da edição ${this.json.numero}?`)) {
+          return
+        }
+      }
+      try {
+        let formData = new FormData();
+        
+        const jsonse = JSON.stringify(this.json);
+        const blob = new Blob([jsonse], {type: "application/json"});
+
+        formData.append('userfile', blob)
+        formData.append('folder', 'edicoes')
+        formData.append('numero', this.json.numero)
+        await upload(formData, overwrite)
+
+        this.$store.dispatch('alert',{
+          message: 'Upload realizado com sucesso!',
+          showing: true,
+          type:'sucesso'
+        })
+
+      } catch(e) {
+          if((e.response || {}).status === 409) {
+            if (window.confirm("Este arquivo já existe no servidor, deseja sobrescrever?")) {
+              this.save(true)
+            }
+        }
+      }
+    },
     limparFormulario() {
       if (window.confirm("Tem certeza que deseja limpar o formulário?")) {
         this.json = exemplo

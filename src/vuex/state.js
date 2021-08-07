@@ -5,6 +5,12 @@ export default {
     resolve: null,
     reject: null
   },
+  toast: {
+    message: null,
+    showing: false
+  },
   salvo: null,
-  token: null
+  token: null,
+  rota: 'edicao',
+  geral: {}
 }

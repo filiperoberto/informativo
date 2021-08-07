@@ -1,31 +1,75 @@
 <template>
   <div id="app">
+    <nav class="navbar navbar-light bg-light nav-pills">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img
+            src="https://ibrvn.com.br/wp-content/uploads/2016/02/icon.png"
+            alt=""
+            width="30"
+            height="24"
+          />
+          Informativo IBRVN
+        </a>
+        <span class="nav-item">
+          <a
+            class="nav-link"
+            href="#"
+            :class="{ active: rota === 'edicao' }"
+            aria-current="page"
+            @click="$store.dispatch('navigate', 'edicao')"
+            >Edição Atual</a
+          >
+        </span>
+        <span class="nav-item">
+          <a
+            class="nav-link"
+            href="#"
+            :class="{ active: rota === 'geral' }"
+            @click="$store.dispatch('navigate', 'geral')"
+            >Geral</a
+          >
+        </span>
+        <button
+          v-if="tokenIsValid"
+          class="navbar-toggler"
+          type="button"
+          @click.stop.prevent="$store.dispatch('logout')"
+        >
+          Logout
+        </button>
+      </div>
+    </nav>
     <component v-bind:is="currentComponent"></component>
+    <toast />
   </div>
 </template>
 
 <script>
-import Principal from './view/Principal.vue'
+import Principal from "./view/Principal";
+import Geral from "./view/Geral";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Login from './view/Login.vue';
-import NotFound from './view/NotFound.vue';
+import Login from "./view/Login";
+import { mapGetters, mapState } from "vuex";
+import Toast from "./components/Toast";
 
-const routes = {
-  '/': Principal,
-  '/login': Login
-}
+const rotas = {
+  edicao: Principal,
+  geral: Geral,
+};
 
 export default {
-  name: 'App',
-  data() {
-    return {
-      currentRoute: window.location.pathname
-    }
+  name: "App",
+  components: {
+    Toast,
   },
+  data() {},
   computed: {
+    ...mapGetters(["tokenIsValid"]),
+    ...mapState(["rota"]),
     currentComponent() {
-      return routes[this.currentRoute] || NotFound
-    }
-  }
-}
+      return this.tokenIsValid ? rotas[this.rota] : Login;
+    },
+  },
+};
 </script>

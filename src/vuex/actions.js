@@ -16,9 +16,20 @@ export default {
   },
   login({commit},data) {
     return login(data).then(({data}) => {
-      localStorage.setItem('token', data.token)
       commit('token', data.token)
     })
+  },
+  logout({commit}) {
+    commit('token', null)
+  },
+  alert({commit},value) {
+    commit('toast', value)
+  },
+  navigate({commit}, value) {
+    commit('rota', value)
+  },
+  salvarGeral({commit}, value) {
+    commit('geral', value)
   }
 
 }

@@ -33,7 +33,6 @@ export default {
     async login() {
       try {
         await this.$store.dispatch('login', this.formData)
-        window.location.href = '/'
       } catch(e) {
         console.log('error')
       }
