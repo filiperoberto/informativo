@@ -11,33 +11,34 @@
           />
           Informativo IBRVN
         </a>
-        <span class="nav-item">
-          <a
-            class="nav-link"
-            href="#"
-            :class="{ active: rota === 'edicao' }"
-            aria-current="page"
-            @click="$store.dispatch('navigate', 'edicao')"
-            >Edição Atual</a
+        <template v-if="tokenIsValid">
+          <span class="nav-item">
+            <a
+              class="nav-link"
+              href="#"
+              :class="{ active: rota === 'edicao' }"
+              aria-current="page"
+              @click="$store.dispatch('navigate', 'edicao')"
+              >Edição Atual</a
+            >
+          </span>
+          <span class="nav-item">
+            <a
+              class="nav-link"
+              href="#"
+              :class="{ active: rota === 'geral' }"
+              @click="$store.dispatch('navigate', 'geral')"
+              >Geral</a
+            >
+          </span>
+          <button
+            class="navbar-toggler"
+            type="button"
+            @click.stop.prevent="$store.dispatch('logout')"
           >
-        </span>
-        <span class="nav-item">
-          <a
-            class="nav-link"
-            href="#"
-            :class="{ active: rota === 'geral' }"
-            @click="$store.dispatch('navigate', 'geral')"
-            >Geral</a
-          >
-        </span>
-        <button
-          v-if="tokenIsValid"
-          class="navbar-toggler"
-          type="button"
-          @click.stop.prevent="$store.dispatch('logout')"
-        >
-          Logout
-        </button>
+            Logout
+          </button>
+        </template>
       </div>
     </nav>
     <component v-bind:is="currentComponent"></component>

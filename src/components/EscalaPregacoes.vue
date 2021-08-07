@@ -10,9 +10,9 @@
     />
     <div v-for="(dia, index) in diasDomingo" :key="`dia-${index}`">
       <div class="card mb-3">
-        <div class="card-body">
+        <div class="card-body" v-if='mutatedValue[mesFormatado]'>
           <h5 class="card-title">{{ dia }}/{{mesFormatado}}</h5>
-          <div class="card-text">
+          <div class="card-text" v-if='mutatedValue[mesFormatado][dia]'>
             <div class="mb-3">
               <label :for="`pregador-${index}`" class="form-label"
                 >Pregador</label
@@ -21,7 +21,8 @@
                 type="text"
                 class="form-control"
                 :id="`pregador-${index}`"
-                :value="escala.escala[mesFormatado][dia].nome"
+                v-model="mutatedValue[mesFormatado][dia].nome"
+                @change="$emit('update:modelValue', mutatedValue)"
               />
             </div>
             <div class="mb-3">
@@ -32,7 +33,8 @@
                 type="text"
                 class="form-control"
                 :id="`texto-${index}`"
-                :value="escala.escala[mesFormatado][dia].texto"
+                v-model="mutatedValue[mesFormatado][dia].texto"
+                @change="$emit('update:modelValue', mutatedValue)"
               />
             </div>
             <div class="mb-3">
@@ -43,7 +45,8 @@
                 type="text"
                 class="form-control"
                 :id="`titulo-${index}`"
-                :value="escala.escala[mesFormatado][dia].titulo"
+                :value="mutatedValue[mesFormatado][dia].titulo"
+                @change="$emit('update:modelValue', mutatedValue)"
               />
             </div>
           </div>
@@ -56,9 +59,11 @@
 import { format, parse, eachWeekendOfMonth, isSunday } from "date-fns";
 export default {
   props: {
-    escala: {
-      type: Object,
-      default: () => {},
+    modelValue: Object,
+  },
+  watch: {
+    modelValue() {
+      this.mutatedValue = this.modelValue;
     },
   },
   computed: {
@@ -78,15 +83,26 @@ export default {
   methods: {
     changeMonth(event) {
       this.month = event.target.value;
+
+      if(!this.mutatedValue[this.mesFormatado]) {
+        this.mutatedValue[this.mesFormatado] = {}
+      }
+      for(let dia of this.diasDomingo) {
+        if(!this.mutatedValue[this.mesFormatado][dia]) {
+          this.mutatedValue[this.mesFormatado][dia] = {}
+        }
+      }
     },
   },
   data() {
     return {
       month: null,
+      mutatedValue: null
     };
   },
   mounted() {
     this.month = format(new Date(), "yyyy-MM");
+    this.mutatedValue = this.modelValue
   },
 };
 </script>
