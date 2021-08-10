@@ -1,7 +1,7 @@
 <template>
   <div
     class="modal fade"
-    :class="{ show: content }"
+    :class="{ 'show': edicao }"
     id="exampleModal"
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
@@ -20,12 +20,7 @@
           ></button>
         </div>
         <div class="modal-body">
-          <div v-if='loading' class="spinner text-center">
-            <h1>
-              <i class="fas fa-spinner fa-spin"></i>
-            </h1>
-          </div>
-          <iframe v-show='!loading' id="myiframe" ref="html" src=''></iframe>
+          <iframe v-if='edicao' id="myiframe" ref="html" :src='url'></iframe>
         </div>
         <div class="modal-footer">
           <button
@@ -42,43 +37,15 @@
   </div>
 </template>
 <script>
-import { ref } from "vue";
 export default {
   props: {
-    content: null,
+    edicao: null,
   },
-  setup() {
-    const html = ref(0);
-    return {html};
-  },
-  watch: {
-    content(newValue) {
-      if (newValue) {
-        this.carregaInformativo();
-      }
-    },
-  },
-  data() {
-    return {
-      loading: false
+  computed: {
+    url() {
+      return `${process.env.VUE_APP_ENDERECO_PHP}/index.php?edicao=${this.edicao}`
     }
-  },
-  methods: {
-    carregaInformativo() {
-      this.loading = true
-      const xhttp = new XMLHttpRequest();
-      xhttp.onload = () => {
-        this.loading = false
-        this.html.src = "data:text/html;charset=iso-8859-1," + escape(xhttp.responseText);
-      };
-      xhttp.onerror = () => {
-        this.loading = false
-      }
-      xhttp.open("POST", `${process.env.VUE_APP_ENDERECO_PHP}?interno=kbPMQH3PyjQzzwhf`);
-      xhttp.setRequestHeader("Content-type", "application/json");
-      xhttp.send(JSON.stringify(this.content));
-    },
-  },
+  }
 };
 </script>
 <style scoped>

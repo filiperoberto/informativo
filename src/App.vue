@@ -1,47 +1,7 @@
 <template>
   <div id="app">
-    <overlay/>
-    <nav class="navbar navbar-light bg-light nav-pills">
-      <div class="container">
-        <a class="navbar-brand" href="#">
-          <img
-            src="https://ibrvn.com.br/wp-content/uploads/2016/02/icon.png"
-            alt=""
-            width="30"
-            height="24"
-          />
-          Informativo IBRVN
-        </a>
-        <template v-if="tokenIsValid">
-          <span class="nav-item">
-            <a
-              class="nav-link"
-              href="#"
-              :class="{ active: rota === 'edicao' }"
-              aria-current="page"
-              @click="$store.dispatch('navigate', 'edicao')"
-              >Edição Atual</a
-            >
-          </span>
-          <span class="nav-item">
-            <a
-              class="nav-link"
-              href="#"
-              :class="{ active: rota === 'geral' }"
-              @click="$store.dispatch('navigate', 'geral')"
-              >Geral</a
-            >
-          </span>
-          <button
-            class="navbar-toggler"
-            type="button"
-            @click.stop.prevent="$store.dispatch('logout')"
-          >
-            Logout
-          </button>
-        </template>
-      </div>
-    </nav>
+    <overlay />
+    <navbar/>
     <component v-bind:is="currentComponent"></component>
     <toast />
   </div>
@@ -55,17 +15,21 @@ import Login from "./view/Login";
 import { mapGetters, mapState } from "vuex";
 import Toast from "./components/Toast";
 import Overlay from "./components/Overlay";
+import Navbar from "./components/Navbar";
+import EnviosVue from './view/Envios.vue';
 
 const rotas = {
   edicao: Principal,
   geral: Geral,
+  envios: EnviosVue
 };
 
 export default {
   name: "App",
   components: {
     Toast,
-    Overlay
+    Overlay,
+    Navbar
   },
   data() {},
   computed: {
@@ -76,7 +40,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('overlay', false)
-  }
+    this.$store.dispatch("overlay", false);
+  },
 };
 </script>

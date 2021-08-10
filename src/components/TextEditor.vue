@@ -150,6 +150,18 @@
       >
         redo
       </button>
+      <button
+        @click.stop.prevent="setLink"
+        :class="{ 'is-active': editor.isActive('link') }"
+      >
+        <i class="fas fa-link"></i>
+      </button>
+      <button
+        @click.stop.prevent="editor.chain().focus().unsetLink().run()"
+        v-if="editor.isActive('link')"
+      >
+        <i class="fas fa-unlink"></i>
+      </button>
     </div>
     <editor-content :editor="editor" class="editor" />
   </div>
@@ -159,6 +171,7 @@
 import { Editor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
 import HardBreak from "@tiptap/extension-hard-break";
+import Link from "@tiptap/extension-link";
 
 export default {
   components: {
@@ -185,12 +198,31 @@ export default {
     },
   },
 
+  methods: {
+    setLink() {
+      const url = window.prompt("URL");
+
+      this.editor
+        .chain()
+        .focus()
+        .extendMarkRange("link")
+        .setLink({ href: url })
+        .run();
+    },
+  },
+
   mounted() {
     this.editor = new Editor({
       content: (this.modelValue || []) /*.map((v) => `<p>${v}</p>`)*/
         .join(""),
       extensions: [
         StarterKit,
+        Link.extend({
+          defaultOptions: {
+            ...Link.options,
+            openOnClick: false
+          }
+        }),
         HardBreak.extend({
           addKeyboardShortcuts() {
             return {

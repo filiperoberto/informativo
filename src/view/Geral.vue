@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-2 mb-5">
     <h2>Informações Gerais</h2>
-    <div class="d-grid gap-2 col-6 mx-auto mt-2">
+    <div class="d-grid gap-2 col-lg-6 mx-auto mt-2">
       <button class="btn btn-primary" @click="carregarJson" type="button">
         Carregar do Servidor
       </button>

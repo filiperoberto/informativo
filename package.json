@@ -12,6 +12,7 @@
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@popperjs/core": "^2.9.2",
     "@tiptap/extension-hard-break": "^2.0.0-beta.15",
+    "@tiptap/extension-link": "^2.0.0-beta.19",
     "@tiptap/starter-kit": "^2.0.0-beta.89",
     "@tiptap/vue-3": "^2.0.0-beta.48",
     "axios": "^0.21.1",

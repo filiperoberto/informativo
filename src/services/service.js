@@ -25,3 +25,11 @@ export const load = (edicao = null) => {
 export const loadGeneral = () => {
   return http.get(`/json.php`)
 }
+
+export const envios = (limit, offset) => {
+  return http.get(`envios.php?limit=${limit}&offset=${offset}`)
+}
+
+export const enfileirar = numero => {
+  return http.get(`enfileirar_auth.php?edicao=${numero}`)
+}
