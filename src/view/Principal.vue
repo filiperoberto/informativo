@@ -119,6 +119,8 @@ export default {
 
         const edicao = prompt("Digite a edição:");
         const { data } = await load(edicao);
+        // eslint-disable-next-line no-debugger
+        debugger;
         this.carregaJson(data);
       } catch ({ response }) {
         this.$store.dispatch("alert", {

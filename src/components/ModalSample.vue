@@ -20,7 +20,12 @@
           ></button>
         </div>
         <div class="modal-body">
-          <iframe v-if='edicao' id="myiframe" ref="html" :src='url'></iframe>
+          <div v-if='loading' class="spinner text-center">
+            <h1>
+              <i class="fas fa-spinner fa-spin"></i>
+            </h1>
+          </div>
+          <iframe v-if='edicao' v-show='!loading' @load='loading = false' id="myiframe" ref="html" :src='url'></iframe>
         </div>
         <div class="modal-footer">
           <button
@@ -40,6 +45,11 @@
 export default {
   props: {
     edicao: null,
+  },
+  data() {
+    return {
+      loading: false
+    }
   },
   computed: {
     url() {
