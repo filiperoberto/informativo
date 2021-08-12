@@ -40,6 +40,12 @@
       <button class="btn btn-danger" @click="limparFormulario" type="button">
         <i class="fas fa-broom"></i> Limpar Formulário
       </button>
+      <template v-if="json.numero">
+        <button class="btn" :class="{'btn-secondary': !copied, 'btn-success': copied}" @click="copiarEndereco" type="button">
+          <i class="far fa-copy"></i> <span v-if='!copied'>Copiar Endereço</span><span v-else>Copiado!</span>
+        </button>
+        <input type="text" class="form-control" disabled :value="url" />
+      </template>
       <form class="row g-3 mt-3" v-if="json">
         <div class="col-md-6">
           <label for="edicao" class="form-label">Edição</label>
@@ -91,9 +97,51 @@ export default {
       json: null,
       sample: null,
       saveInterval: null,
+      copied: false
     };
   },
+  computed: {
+    url() {
+      return `${process.env.VUE_APP_ENDERECO_PHP}/index.php?edicao=${this.json.numero}&interno=kbPMQH3PyjQzzwhf`;
+    },
+  },
   methods: {
+    async copiarEndereco() {
+
+      try {
+        await this.copyToClipboard(this.url)
+        this.copied = true
+
+        setTimeout(() => {
+          this.copied = false
+        },5000)
+      } catch(e) {
+        console.log(e)
+      }
+    },
+    copyToClipboard(textToCopy) {
+      // navigator clipboard api needs a secure context (https)
+      if (navigator.clipboard && window.isSecureContext) {
+        // navigator clipboard api method'
+        return navigator.clipboard.writeText(textToCopy);
+      } else {
+        // text area method
+        let textArea = document.createElement("textarea");
+        textArea.value = textToCopy;
+        // make the textarea out of viewport
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        return new Promise((res, rej) => {
+          // here the magic happens
+          document.execCommand("copy") ? res() : rej();
+          textArea.remove();
+        });
+      }
+    },
     async enfileirar() {
       if (!window.confirm(`Enfileirar a edição ${this.json.numero}?`)) {
         return;

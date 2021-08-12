@@ -37,18 +37,10 @@
                 @change="$emit('update:modelValue', mutatedValue)"
               />
             </div>
-            <div class="mb-3">
-              <label :for="`titulo-${index}`" class="form-label"
-                >Título</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                :id="`titulo-${index}`"
-                :value="mutatedValue[mesFormatado][dia].titulo"
-                @change="$emit('update:modelValue', mutatedValue)"
-              />
-            </div>
+            <titulo-pregacao
+              v-model="mutatedValue[mesFormatado][dia].titulo"
+               @change="$emit('update:modelValue', mutatedValue)"
+            />
           </div>
         </div>
       </div>
@@ -56,8 +48,12 @@
   </div>
 </template>
 <script>
+import TituloPregacao from '@/components/TituloPregacao'
 import { format, parse, eachWeekendOfMonth, isSunday } from "date-fns";
 export default {
+  components: {
+    TituloPregacao
+  },
   props: {
     modelValue: Object,
   },

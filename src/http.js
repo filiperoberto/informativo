@@ -2,8 +2,7 @@ import axios from 'axios'
 import { store } from '@/vuex/store'
 
 const http = axios.create({
-  baseURL: process.env.VUE_APP_ENDERECO_PHP,
-  timeout: 15000
+  baseURL: process.env.VUE_APP_ENDERECO_PHP
 })
 
 // Add a request interceptor
