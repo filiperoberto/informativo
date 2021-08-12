@@ -11,11 +11,11 @@
       />
     </div>
     <div class="mb-3">
-      <label :for="`titulo-${uid}`" class="form-label">Url Áudio Última Pregação</label>
+      <label :for="`audio-${uid}`" class="form-label">Url Áudio Última Pregação</label>
       <input
         type="text"
         class="form-control"
-        :id="`titulo-${uid}`"
+        :id="`audio-${uid}`"
         v-model="url"
         @change="alterar"
       />
@@ -26,7 +26,7 @@
 import { getCurrentInstance } from 'vue'
 export default {
   props: {
-    modelValue: Object,
+    modelValue: String,
   },
   data() {
     return {

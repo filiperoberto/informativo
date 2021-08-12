@@ -1,50 +1,59 @@
 <template>
   <div class="container mt-2 mb-5">
     <h2>Informativo IBRVN</h2>
-    <load-file @json="carregaJson" v-if="false" />
-    <div class="d-grid gap-2 col-lg-6 mx-auto mt-2" v-if="json">
-      <button class="btn btn-primary" @click="load" type="button">
-        <i class="fas fa-cloud-download-alt"></i> Carregar Edição
-      </button>
-      <button
-        class="btn btn-warning"
-        @click="save(false)"
-        type="button"
-        :disabled="!json.numero"
-      >
-        <i class="fas fa-save"></i> Salvar Edição
-      </button>
-      <button
-        class="btn btn-danger"
-        @click="enfileirar()"
-        type="button"
-        :disabled="!json.numero"
-      >
-        <i class="fas fa-paper-plane"></i> Enfileirar
-      </button>
-      <button
-        class="btn btn-primary"
-        @click="preview"
-        :disabled="!json.numero || !json.data"
-      >
-        <i class="fas fa-search"></i> Pré Visualizar
-      </button>
-      <button
-        class="btn btn-primary"
-        @click="download"
-        type="button"
-        v-if="false"
-      >
-        Download Json
-      </button>
-      <button class="btn btn-danger" @click="limparFormulario" type="button">
-        <i class="fas fa-broom"></i> Limpar Formulário
-      </button>
-      <template v-if="json.numero">
-        <button class="btn" :class="{'btn-secondary': !copied, 'btn-success': copied}" @click="copiarEndereco" type="button">
-          <i class="far fa-copy"></i> <span v-if='!copied'>Copiar Endereço</span><span v-else>Copiado!</span>
+    <div class="d-grid gap-2 col-lg-6 mx-auto mt-2">
+      <load-file @json="carregaJson" v-if="$store.state.dev" />
+      <template v-if="json">
+        <button
+          class="btn btn-primary"
+          @click="download"
+          type="button"
+          v-if="$store.state.dev"
+        >
+          Download Json
         </button>
-        <input type="text" class="form-control" disabled :value="url" />
+        <button class="btn btn-primary" @click="load" type="button">
+          <i class="fas fa-cloud-download-alt"></i> Carregar Edição
+        </button>
+        <button
+          class="btn btn-warning"
+          @click="save(false)"
+          type="button"
+          :disabled="!json.numero"
+        >
+          <i class="fas fa-save"></i> Salvar Edição
+        </button>
+        <button
+          class="btn btn-danger"
+          @click="enfileirar()"
+          type="button"
+          :disabled="!json.numero"
+        >
+          <i class="fas fa-paper-plane"></i> Enfileirar
+        </button>
+        <button
+          class="btn btn-primary"
+          @click="preview"
+          :disabled="!json.numero || !json.data"
+        >
+          <i class="fas fa-search"></i> Pré Visualizar
+        </button>
+        <button class="btn btn-danger" @click="limparFormulario" type="button">
+          <i class="fas fa-broom"></i> Limpar Formulário
+        </button>
+        <template v-if="json.numero">
+          <button
+            class="btn"
+            :class="{ 'btn-secondary': !copied, 'btn-success': copied }"
+            @click="copiarEndereco"
+            type="button"
+          >
+            <i class="far fa-copy"></i>
+            <span v-if="!copied">Copiar Endereço</span
+            ><span v-else>Copiado!</span>
+          </button>
+          <input type="text" class="form-control" disabled :value="url" />
+        </template>
       </template>
       <form class="row g-3 mt-3" v-if="json">
         <div class="col-md-6">
@@ -97,7 +106,7 @@ export default {
       json: null,
       sample: null,
       saveInterval: null,
-      copied: false
+      copied: false,
     };
   },
   computed: {
@@ -107,16 +116,15 @@ export default {
   },
   methods: {
     async copiarEndereco() {
-
       try {
-        await this.copyToClipboard(this.url)
-        this.copied = true
+        await this.copyToClipboard(this.url);
+        this.copied = true;
 
         setTimeout(() => {
-          this.copied = false
-        },5000)
-      } catch(e) {
-        console.log(e)
+          this.copied = false;
+        }, 5000);
+      } catch (e) {
+        console.log(e);
       }
     },
     copyToClipboard(textToCopy) {
@@ -193,7 +201,7 @@ export default {
 
         this.$store.dispatch("overlay", true);
 
-        const jsonse = JSON.stringify(this.formatarJson(), null, 4);
+        const jsonse = JSON.stringify(this.formatarJson(), null, this.$store.state.dev ? null : 4);
         const blob = new Blob([jsonse], { type: "application/json" });
 
         formData.append("userfile", blob);

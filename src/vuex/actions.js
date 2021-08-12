@@ -33,6 +33,9 @@ export default {
   },
   overlay({commit}, value) {
     commit('overlay', value)
+  },
+  dev({commit}, value) {
+    commit('dev', value)
   }
 
 }

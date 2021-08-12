@@ -13,5 +13,6 @@ export default {
   token: null,
   rota: 'edicao',
   geral: {},
-  overlay: false
+  overlay: false,
+  dev: false
 }

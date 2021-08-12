@@ -31,7 +31,9 @@ export default {
     Overlay,
     Navbar
   },
-  data() {},
+  data() {
+    return {}
+  },
   computed: {
     ...mapGetters(["tokenIsValid"]),
     ...mapState(["rota"]),
@@ -41,6 +43,11 @@ export default {
   },
   mounted() {
     this.$store.dispatch("overlay", false);
+
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const dev = urlSearchParams.get('dev');
+
+    this.$store.dispatch('dev', !!dev)
   },
 };
 </script>
