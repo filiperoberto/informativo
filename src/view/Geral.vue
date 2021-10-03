@@ -70,6 +70,7 @@ export default {
         this.$store.dispatch("overlay", true);
         const { data } = await loadGeneral();
         this.json = data;
+        this.carregarEventos()
       } catch (e) {
         console.log(e);
       } finally {
