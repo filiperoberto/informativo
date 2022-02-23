@@ -32,6 +32,15 @@
             >Agenda</a
           >
         </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            :class="{ active: aba === 'dados-gerais' }"
+            href="#"
+            @click="aba = 'dados-gerais'"
+            >Dados Gerais</a
+          >
+        </li>
       </ul>
       <template v-if="json.secoes">
         <escala-pregacoes
@@ -39,6 +48,7 @@
           v-if="aba === 'escala-pregacao'"
         />
         <agenda v-model="json.secoes[aba]['eventos']" v-if="aba === 'agenda'" />
+        <dados-gerais v-if="aba === 'dados-gerais'" :titulo='json.titulo' :contato='json.contato' :igreja='json.igreja' :links='json.links' @atualiza='atualizarDadosGerais($event)'/>
       </template>
     </div>
   </div>
@@ -48,6 +58,7 @@ import { loadGeneral, upload } from "@/services/service";
 import { events } from "@/services/online-service";
 import EscalaPregacoes from "@/components/EscalaPregacoes";
 import Agenda from "@/components/Agenda";
+import DadosGerais from "@/components/DadosGerais";
 import { format, parseISO } from "date-fns";
 import { groupBy } from 'lodash'
 
@@ -55,6 +66,7 @@ export default {
   components: {
     Agenda,
     EscalaPregacoes,
+    DadosGerais
   },
   data() {
     return {
@@ -65,6 +77,10 @@ export default {
   },
   computed: {},
   methods: {
+    atualizarDadosGerais({titulo, contato, igreja, links}) {
+      console.log(links)
+      Object.assign(this.json, {titulo, contato, igreja, links})
+    },
     async carregarJson() {
       try {
         this.$store.dispatch("overlay", true);

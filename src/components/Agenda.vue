@@ -9,7 +9,7 @@
       :value="day"
     />
     <div class="card">
-      <div class="card-header">
+      <div class="card-header" v-if='false'>
         <button class="btn btn-small btn-primary" @click="adicionarEvento">
           <i class="fas fa-plus"></i>
         </button>
@@ -21,25 +21,27 @@
           :key="`eventos-${index}`"
         >
           <div class="row">
-            <div class="col-5">
+            <div class="col-6">
               <input
                 type="text"
+                readonly
                 class="form-control"
                 placeholder="Evento"
                 v-model="event.evento"
                 @change="$emit('update:modelValue', mutatedValue)"
               />
             </div>
-            <div class="col-5">
+            <div class="col-6">
               <input
                 type="text"
+                readonly
                 class="form-control"
                 placeholder="Horário"
                 v-model="event.horario"
                 @change="$emit('update:modelValue', mutatedValue)"
               />
             </div>
-              <div class="col-2">
+              <div class="col-2" v-if='false'>
                 <button
                   class="btn btn-small btn-danger"
                   @click="remover(index)"
