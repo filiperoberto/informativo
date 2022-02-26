@@ -10,5 +10,8 @@ export default {
     }
     const { exp } = jwtDecode(token)
     return isBefore(new Date(), parseDate(exp, 't', new Date()))
+  },
+  secoes: state => {
+    return state.geral.secoes
   }
 }

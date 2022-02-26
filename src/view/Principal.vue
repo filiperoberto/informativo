@@ -201,7 +201,7 @@ export default {
 
         this.$store.dispatch("overlay", true);
 
-        const jsonse = JSON.stringify(this.formatarJson(), null, this.$store.state.dev ? null : 4);
+        const jsonse = JSON.stringify(this.formatarJson(), null, this.$store.state.dev ? 4 : null);
         const blob = new Blob([jsonse], { type: "application/json" });
 
         formData.append("userfile", blob);

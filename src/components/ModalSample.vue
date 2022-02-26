@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     url() {
-      return `${process.env.VUE_APP_ENDERECO_PHP}/index.php?edicao=${this.edicao}`
+      return `${process.env.VUE_APP_ENDERECO_PHP}/index.php?edicao=${this.edicao}&interno=kbPMQH3PyjQzzwhf`
     }
   }
 };

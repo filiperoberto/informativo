@@ -54,6 +54,7 @@
 <script>
 import Conteudo from "@/components/Conteudo";
 import { getCurrentInstance } from 'vue'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     Conteudo,
@@ -76,8 +77,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['secoes']),
     title() {
-      return this.chave.split("-").join(" ");
+      return this.secoes[this.chave].titulo;
     },
   },
   watch: {

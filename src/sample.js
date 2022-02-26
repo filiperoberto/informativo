@@ -4,10 +4,6 @@ export default {
   data: null,
 
   secoes: {
-    avisos: {
-      ativa: "1",
-      lista: [],
-    },
     artigo: {
       ativa: "0",
       artigo: {
@@ -16,6 +12,10 @@ export default {
         imagem: "",
         texto: [],
       },
+    },
+    avisos: {
+      ativa: "1",
+      lista: [],
     },
     "sugestao-leitura": {
       ativa: "0",
@@ -31,18 +31,18 @@ export default {
       },
     },
     "plano-leitura-biblica": {
-      ativa: "0"
+      ativa: "0",
     },
     "escala-pregacao": {
-      ativa: "1"
+      ativa: "1",
     },
 
     aniversariantes: {
-      ativa: "1"
+      ativa: "1",
     },
 
     agenda: {
-      ativa: "1"
+      ativa: "1",
     },
   },
-}
+};

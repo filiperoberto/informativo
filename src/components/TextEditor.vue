@@ -127,10 +127,10 @@
         blockquote
       </button>
       <button
-        v-if="false"
+        title="Linha Horizontal"
         @click.stop.prevent="editor.chain().focus().setHorizontalRule().run()"
       >
-        horizontal rule
+        _
       </button>
       <button
         v-if="false"
@@ -186,15 +186,17 @@ export default {
     return {
       editor: null,
       debounceTimer: null,
+      html: null
     };
   },
 
   watch: {
     modelValue(newValue) {
-      this.editor.commands.setContent(
-        newValue /*.map((v) => `<p>${v}</p>`)*/
-          .join("")
-      );
+
+      const newValueJoin = newValue.join('')
+      if(this.html !== newValueJoin) {
+        this.editor.commands.setContent(newValueJoin)
+      }
     },
   },
 
@@ -218,9 +220,11 @@ export default {
       extensions: [
         StarterKit,
         Link.extend({
-          defaultOptions: {
-            ...Link.options,
-            openOnClick: false
+          addOptions() {
+            return {
+              ...Link.options,
+              openOnClick: false
+            }
           }
         }),
         HardBreak.extend({
@@ -232,12 +236,12 @@ export default {
         }),
       ],
       onUpdate: ({ editor }) => {
-        const value =
-          editor.getHTML(); /*.replaceAll('</p>', '').split('<p>').filter(v => v.trim() !== '')*/
-
         clearTimeout(this.debounceTimer);
         this.debounceTimer = setTimeout(() => {
-          this.$emit("update:modelValue", [value]);
+
+          this.html = editor.getHTML();
+
+          this.$emit("update:modelValue", [this.html]);
           this.$emit("change");
         }, 1000);
       },
