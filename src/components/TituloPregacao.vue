@@ -11,12 +11,22 @@
       />
     </div>
     <div class="mb-3">
-      <label :for="`audio-${uid}`" class="form-label">Url Áudio Última Pregação</label>
+      <label :for="`audio-${uid}`" class="form-label">Url Última Pregação (Opcional)</label>
       <input
         type="text"
         class="form-control"
         :id="`audio-${uid}`"
         v-model="url"
+        @change="alterar"
+      />
+    </div>
+    <div class="mb-3">
+      <label :for="`label-${uid}`" class="form-label">Rótulo Url Última Pregação (Clique aqui ... )</label>
+      <input
+        type="text"
+        class="form-control"
+        :id="`label-${uid}`"
+        v-model="label"
         @change="alterar"
       />
     </div>
@@ -31,7 +41,8 @@ export default {
   data() {
     return {
       titulo: null,
-      url: null
+      url: null,
+      label: "para ouvir a última pregação da série"
     }
   },
   setup() {
@@ -69,7 +80,7 @@ export default {
 
       let mutatedValue = this.titulo
       if(this.url) {
-        mutatedValue += `<br><font size="2">(<a href="${this.url}" target="_blank" style="text-decoration:underline;color:#669966;">Clique aqui</a> para ouvir a última pregação da série)</font>`;
+        mutatedValue += `<br><font size="2">(<a href="${this.url}" target="_blank" style="text-decoration:underline;color:#669966;">Clique aqui</a> ${this.label})</font>`;
       }
       this.$emit('update:modelValue', mutatedValue)
     }
