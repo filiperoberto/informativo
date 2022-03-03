@@ -20,7 +20,7 @@
         @change="alterar"
       />
     </div>
-    <div class="mb-3">
+    <div class="mb-3" v-if='url'>
       <label :for="`label-${uid}`" class="form-label">Rótulo Url Última Pregação (Clique aqui ... )</label>
       <input
         type="text"
@@ -42,7 +42,7 @@ export default {
     return {
       titulo: null,
       url: null,
-      label: "para ouvir a última pregação da série"
+      label: "para assistir à última pregação da série"
     }
   },
   setup() {
@@ -64,6 +64,7 @@ export default {
       div.innerHTML = this.modelValue
 
       let link = div.querySelector('a');
+      let font = div.querySelector('font');
 
       [...div.children].forEach(c => {
         div.removeChild(c)
@@ -74,6 +75,13 @@ export default {
         this.url = link.href
       } else {
         this.url = null
+      }
+
+      if(font) {
+        font.removeChild(link);
+        this.label = font.textContent.replace('(',"").replace(')',"").trim()
+      } else {
+        this.label = 'para assistir à última pregação da série'
       }
     },
     alterar() {
