@@ -5,6 +5,15 @@
       <button class="btn btn-danger" @click.stop.prevent="$emit('remove')">
         Remover Bloco
       </button>
+        <div>
+          <button class="btn btn-secondary mr-2" @click.stop.prevent="$emit('up')" :disabled="dir === 'destaques'">
+            <i class="fas fa-arrow-up"></i>
+          </button>
+          <button class="btn btn-secondary" @click.stop.prevent="$emit('down')" :disabled="ultimo">
+            <i class="fas fa-arrow-down"></i>
+          </button>
+
+        </div>
     </div>
 
     <div class="position-relative">
@@ -103,7 +112,11 @@ export default {
       type: Boolean,
       default: false,
     },
-    dir: null
+    dir: null,
+    ultimo: {
+      type: Boolean,
+      default: false
+    }
   },
   setup() {
     const uid = getCurrentInstance().uid
@@ -145,3 +158,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.mr-2 {
+  margin-right: 2px;
+}
+</style>
