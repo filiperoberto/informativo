@@ -70,7 +70,7 @@ import EscalaPregacoes from "@/components/EscalaPregacoes";
 import Agenda from "@/components/Agenda";
 import DadosGerais from "@/components/DadosGerais";
 import DadosSecoes from "@/components/DadosSecoes";
-import { format, parseISO } from "date-fns";
+import { format, parseISO, parse, isAfter } from "date-fns";
 import { groupBy } from 'lodash'
 
 export default {
@@ -127,7 +127,10 @@ export default {
           }
 
           for(const dia in this.json.secoes.agenda.eventos[mes]) {
-            if(!dias[dia]) {
+
+            let data = parse(`${dia}/${mes}`,'dd/MM/yyyy', new Date())
+
+            if(!dias[dia] && isAfter(data, new Date())) {
               delete this.json.secoes.agenda.eventos[mes][dia]
             }
           }
