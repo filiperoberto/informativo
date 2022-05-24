@@ -126,6 +126,12 @@ export default {
             this.json.secoes.agenda.eventos[mes] = {}
           }
 
+          for(const dia in this.json.secoes.agenda.eventos[mes]) {
+            if(!dias[dia]) {
+              delete this.json.secoes.agenda.eventos[mes][dia]
+            }
+          }
+
           for(const dia in dias) {
             const evt = dias[dia].map(({evento, horario}) => { return {evento, horario}})
 
