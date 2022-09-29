@@ -103,6 +103,7 @@ export default {
   },
   data() {
     return {
+      jsonSalvo: null,
       json: null,
       sample: null,
       saveInterval: null,
@@ -209,6 +210,8 @@ export default {
         formData.append("numero", this.json.numero);
         await upload(formData, overwrite);
 
+        this.jsonSalvo = jsonse
+
         this.$store.dispatch("alert", {
           message: "Upload realizado com sucesso!",
           showing: true,
@@ -246,6 +249,17 @@ export default {
       }, 5000);
     },
     preview() {
+
+      const jsonse = JSON.stringify(this.formatarJson(), null, this.$store.state.dev ? 4 : null);
+      if(this.jsonSalvo !== jsonse) {
+
+        this.$store.dispatch("alert", {
+          message: 'Salve a edição para que a pré visualização reflita o que está no formulário',
+          showing: true,
+          type: "aviso",
+        });
+      }
+
       this.sample = this.json.numero;
     },
     formatarJson() {

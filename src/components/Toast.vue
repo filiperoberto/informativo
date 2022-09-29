@@ -9,6 +9,7 @@
       :class="{
         'bg-success': toast.type === 'sucesso',
         'bg-danger': toast.type === 'erro',
+        'bg-warning': toast.type === 'aviso',
       }"
       role="alert"
       aria-live="assertive"
