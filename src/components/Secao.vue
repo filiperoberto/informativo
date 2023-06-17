@@ -29,6 +29,9 @@
                 :modelValue="conteudo"
                 removivel
                 @remove="remover(index)"
+                @up="moverParaCima(index)"
+                @down="moverParaBaixo(index)"
+                :ultimo='mutatedValue.lista.length - 1 === index'
                 :dir="index === 0 ? 'destaques' : 'avisos'"
                 @update:modelValue="alterarConteudo(conteudo, $event)"
               />
@@ -96,6 +99,26 @@ export default {
     remover(index) {
       this.mutatedValue.lista.splice(index, 1)
       this.alterar()
+    },
+    moverParaCima(index) {
+
+      if(index === 0) {
+        return;
+      }
+      const newIndex = index - 1
+
+      this.mutatedValue.lista.splice(newIndex, 0, this.mutatedValue.lista.splice(index, 1)[0])
+    },
+    moverParaBaixo(index) {
+
+      const newIndex = index + 1
+
+      if(newIndex === this.mutatedValue.lista.length) {
+        return;
+      }
+
+      this.mutatedValue.lista.splice(newIndex, 0, this.mutatedValue.lista.splice(index, 1)[0])
+
     },
     add() {
       this.mutatedValue.lista.push({ titulo: '', texto: [] })
