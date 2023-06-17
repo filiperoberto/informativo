@@ -74,12 +74,15 @@
             v-model="json.data"
           />
         </div>
-        <secao
-          v-for="(secao, chave) of json.secoes"
-          :key="chave"
-          :chave="chave"
-          v-model="json.secoes[chave]"
-        />
+        <div v-if='!secoes' class='alert alert-warning'>Seções não carregadas, entre na aba <strong>Geral</strong> e carregue do servidor</div>
+        <template v-else>
+          <secao
+            v-for="(secao, chave) of json.secoes"
+            :key="chave"
+            :chave="chave"
+            v-model="json.secoes[chave]"
+          />
+        </template>
       </form>
     </div>
   </div>
@@ -94,6 +97,8 @@ import ModalSample from "@/components/ModalSample";
 import ModalImagens from "@/components/ModalImagens";
 import exemplo from "../sample";
 import { load, upload, enfileirar } from "@/services/service";
+import { mapGetters } from 'vuex'
+
 export default {
   components: {
     LoadFile,
@@ -110,6 +115,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['secoes']),
     url() {
       return `${process.env.VUE_APP_ENDERECO_PHP}/index.php?edicao=${this.json.numero}&interno=kbPMQH3PyjQzzwhf`;
     },
