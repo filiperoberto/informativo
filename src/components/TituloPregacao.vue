@@ -83,6 +83,11 @@ export default {
       } else {
         this.label = 'para assistir à última pregação da série'
       }
+
+      this.$emit('titulo', this.titulo)
+      this.$emit('url',this.url)
+      this.$emit('label',this.label)
+
     },
     alterar() {
 

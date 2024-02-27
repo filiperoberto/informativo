@@ -38,10 +38,37 @@
               />
             </div>
             <titulo-pregacao
+              @titulo="mutatedValue[mesFormatado][dia].tituloIsolado = $event"
+              @url="mutatedValue[mesFormatado][dia].urlUltima = $event"
+              @label="mutatedValue[mesFormatado][dia].label = $event"
               v-model="mutatedValue[mesFormatado][dia].titulo"
                @change="$emit('update:modelValue', mutatedValue)"
             />
           </div>
+          <div class="mb-3">
+              <label :for="`texto-${index}`" class="form-label"
+                >Nome da série (Opcional)</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                :id="`texto-${index}`"
+                v-model="mutatedValue[mesFormatado][dia].serie"
+                @change="$emit('update:modelValue', mutatedValue)"
+              />
+            </div>
+            <div class="mb-3" v-if='mutatedValue[mesFormatado][dia].serie'>
+              <label :for="`texto-${index}`" class="form-label"
+                >Url da série (Opcional)</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                :id="`texto-${index}`"
+                v-model="mutatedValue[mesFormatado][dia].urlSerie"
+                @change="$emit('update:modelValue', mutatedValue)"
+              />
+            </div>
         </div>
       </div>
     </div>
